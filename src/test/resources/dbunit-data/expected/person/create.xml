@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <PERSON PERSON_ID="1" ROLE_ID="1" LOGIN="testUser_1" PASSWORD="testUser_1" EMAIL="testUser_1@gmail.com" FIRST_NAME="Ivan" LAST_NAME="Ivanov" BIRTHDAY="1986-01-01"/>
+  <PERSON PERSON_ID="2" ROLE_ID="1" LOGIN="testUser_2" PASSWORD="testUser_2" EMAIL="testUser_2@gmail.com" FIRST_NAME="Petr" LAST_NAME="Petrov" BIRTHDAY="1986-02-02"/>
+  <PERSON PERSON_ID="3" ROLE_ID="2" LOGIN="testUser_3" PASSWORD="testUser_3" EMAIL="testUser_3@gmail.com" FIRST_NAME="Dmitrii" LAST_NAME="Dmitriev" BIRTHDAY="1986-03-03"/>
+  <PERSON PERSON_ID="4" ROLE_ID="2" LOGIN="testUser_4" PASSWORD="testUser_4" EMAIL="testUser_4@gmail.com" FIRST_NAME="Stas" LAST_NAME="Mikhailov" BIRTHDAY="1986-04-04"/>
+  <PERSON PERSON_ID="5" ROLE_ID="2" LOGIN="testUser_5" PASSWORD="testUser_5" EMAIL="testUser_5@gmail.com" FIRST_NAME="Oleg" LAST_NAME="Gazmanov" BIRTHDAY="1986-05-05"/>
+  <PERSON PERSON_ID="6" ROLE_ID="1" LOGIN="created" PASSWORD="cretedPass" EMAIL="created@gmail.com" FIRST_NAME="createdName" LAST_NAME="createdSurname" BIRTHDAY="1986-06-06"/>
+</dataset>

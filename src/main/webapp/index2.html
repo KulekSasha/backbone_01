@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link type="text/css" rel="stylesheet" href="css/style.css" />
+        <script type="text/javascript" src="resources/js/jquery.js"></script>
+        <script type="text/javascript" src="resources/js/underscore.js"></script>
+        <script type="text/javascript" src="resources/js/backbone_.js"></script>
+        <script type="text/javascript" src="resources/js/index.js"></script>
+    </head>
+    <body>
+        <div id="block" class="block">
+        </div>
+
+        <!-- Блок ввода имени пользователя -->
+        <script type="text/template" id="start"> 
+            <div class="start"> 
+                <div class="userplace">
+                    <label for="username">Имя пользователя: </label>
+                    <input type="text" id="username" />
+                </div>
+                <div class="buttonplace">
+                    <input type="button" value="Проверить" />
+                </div>
+            </div>
+        </script>
+
+        <!-- Блок ошибки -->
+        <script type="text/template" id="error">
+            <div class="error">
+                Ошибка. Пользователь  <%= username %> не найден.
+                <a href="#!/">Go back</a>
+            </div>
+        </script>
+
+        <!-- Блок удачи -->
+        <script type="text/template" id="success">
+            <div class="success">
+                Пользователь <%= username %> найден.
+                <a href="#!/">Go back</a>
+            </div>        
+        </script>
+
+    </body>
+
+</html>

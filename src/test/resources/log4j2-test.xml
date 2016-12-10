@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="info" strict="true" name="AppLogConfig"
+               monitorInterval="60">
+
+    <Properties>
+        <Property name="logPath">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT">
+            <Layout type="PatternLayout"
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %C{10} - %msg%n"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="RollingFile"
+                  fileName="${logPath}/app.log"
+                  filePattern="${logPath}/$${date:yyyy-MM}/app-%d{yyyyMMdd}.log.gz">
+            <Layout type="PatternLayout"
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1.} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+        </Appender>
+    </Appenders>
+
+
+    <Loggers>
+        <Logger name="com.nix"
+                level="trace" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Logger name="com.zaxxer.hikari"
+                level="error" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Logger name="org.dbunit"
+                level="error" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Logger name="org.hibernate" additivity="false"
+                level="all">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Logger name="org.springframework.security" additivity="false"
+                level="all">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

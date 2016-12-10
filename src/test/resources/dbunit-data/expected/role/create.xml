@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <PERSON_ROLE ROLE_ID="1" NAME="Admin"/>
+    <PERSON_ROLE ROLE_ID="2" NAME="User"/>
+    <PERSON_ROLE ROLE_ID="10" NAME="RoleForRemove"/>
+    <PERSON_ROLE ROLE_ID="11" NAME="NewRole"/>
+</dataset>

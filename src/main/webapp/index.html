@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        #error, #success {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="test_1">
+aaaa
+</div>
+
+
+<!--EXAMPLE-->
+<div id="menu"> <!-- Блок меню -->
+    <ul>
+        <li><a href="#!/">Start</a></li>
+        <li><a href="#!/success">Success</a></li>
+        <li><a href="#!/error">Error</a></li>
+    </ul>
+</div>
+
+<div id="start" class="block">
+    <div class="userplace">
+        <label for="username">Имя пользователя: </label>
+        <input type="text" id="username" />
+    </div>
+    <div class="buttonplace">
+        <input type="button" value="Проверить" />
+    </div>
+</div>
+
+<div id="error" class="block">
+    Ошибка такой пользователь не найден.
+</div>
+
+<div id="success" class="block">
+    Пользователь найден.
+</div>
+<!--EXAMPLE END-->
+
+
+<!-- jQuery Version 1.11.1 -->
+<script type="text/javascript" src="resources/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="resources/js/underscore.js"></script>
+
+<!--<script type="text/javascript" src="resources/js/backbone_old.js"></script>-->
+<script src="http://backbonejs.org/backbone.js"></script>
+
+<script type="text/javascript" src="resources/js/app/index.js"></script>
+<script type="text/javascript" src="resources/js/app/check.js"></script>
+
+
+</body>
+</html>
