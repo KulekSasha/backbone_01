@@ -1,12 +1,19 @@
-var Backbone = require("Backbone");
+var userApp = userApp || {};
 
-var Movie = Backbone.Model.extend({
+userApp.UserModel = Backbone.Model.extend({
+
     defaults: {
-        title: "default",
-        year: 0,
-        description: "empty",
-        selected: false
+        "id": "",
+        "login": "",
+        "password": "",
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+        "birthday": "",
+        "role": {
+            "id": "",
+            "name": ""
+        }
     }
 });
 
-module.exports = Movie;

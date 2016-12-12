@@ -2,64 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users</title>
 
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        #error, #success {
-            display: none;
-        }
-    </style>
 </head>
 <body>
 
-<div id="test_1">
-aaaa
-</div>
-
-
-<!--EXAMPLE-->
-<div id="menu"> <!-- Блок меню -->
-    <ul>
-        <li><a href="#!/">Start</a></li>
-        <li><a href="#!/success">Success</a></li>
-        <li><a href="#!/error">Error</a></li>
-    </ul>
-</div>
-
-<div id="start" class="block">
-    <div class="userplace">
-        <label for="username">Имя пользователя: </label>
-        <input type="text" id="username" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-6 text-right">
+            Admin ... (<a href="/logout">logout</a>)
+        </div>
     </div>
-    <div class="buttonplace">
-        <input type="button" value="Проверить" />
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-left">
+            <div id="app-block">
+                <div>
+                    <a id="create-new" href="#/create">Add new</a>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Login</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="user-list">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
-<div id="error" class="block">
-    Ошибка такой пользователь не найден.
-</div>
-
-<div id="success" class="block">
-    Пользователь найден.
-</div>
-<!--EXAMPLE END-->
 
 
 <!-- jQuery Version 1.11.1 -->
-<script type="text/javascript" src="resources/js/jquery.js"></script>
+<!--<script type="text/javascript" src="resources/js/jquery.js"></script>-->
+<script type="text/javascript" src="resources/js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="resources/js/jquery-ui.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="resources/js/underscore.js"></script>
 
-<!--<script type="text/javascript" src="resources/js/backbone_old.js"></script>-->
-<script src="http://backbonejs.org/backbone.js"></script>
+<!--APP-->
+<script type="text/javascript" src="resources/js/app/lib/underscore.js"></script>
+<script type="text/javascript" src="resources/js/app/lib/backbone.js"></script>
+<!--<script type="text/javascript" src="resources/js/app/lib/backbone.basicauth.js"></script>-->
 
 <script type="text/javascript" src="resources/js/app/index.js"></script>
-<script type="text/javascript" src="resources/js/app/check.js"></script>
+<script type="text/javascript" src="resources/js/app/model/user.js"></script>
+
+
+<!--Template-->
+<script type="text/template" id="user-template">
+
+    <td><%- login %></td>
+    <td><%- firstName %></td>
+    <td><%- lastName %></td>
+    <td><%- birthday %></td>
+    <td><%- role.name %></td>
+    <td>
+        <button type="button" class="btn-xs btn-success edit" value="<%- login %>">Edit</button>
+        <button type="button" class="btn-xs btn-danger delete" value="<%- login %>">Delete</button>
+
+    </td>
+
+</script>
 
 
 </body>
