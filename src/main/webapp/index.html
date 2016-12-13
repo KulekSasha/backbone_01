@@ -5,62 +5,47 @@
     <title>Users</title>
 
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="resources/css/jquery-ui.structure.min.css" rel="stylesheet">
+
 </head>
 <body>
 
 <div class="container-fluid">
     <div class="row">
+        </br>
         <div class="col-lg-4 col-lg-offset-6 text-right">
             Admin ... (<a href="/logout">logout</a>)
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 text-left">
-            <div id="app-block">
-                <div>
-                    <a id="create-new" href="#/create">Add new</a>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Login</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Age</th>
-                        <th>Role</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody id="user-list">
+    <div id="app-block">
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 
 
-<!-- jQuery Version 1.11.1 -->
-<!--<script type="text/javascript" src="resources/js/jquery.js"></script>-->
+<!-- jQuery  & Bootstrap-->
 <script type="text/javascript" src="resources/js/jquery-3.1.1.js"></script>
-<script type="text/javascript" src="resources/js/jquery-ui.min.js"></script>
-<!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery-ui.min.js"></script>
 
-
-<!--APP-->
+<!--App Libs-->
 <script type="text/javascript" src="resources/js/app/lib/underscore.js"></script>
 <script type="text/javascript" src="resources/js/app/lib/backbone.js"></script>
-<!--<script type="text/javascript" src="resources/js/app/lib/backbone.basicauth.js"></script>-->
+<script type="text/javascript" src="resources/js/app/lib/backbone.syphon.js"></script>
 
-<script type="text/javascript" src="resources/js/app/index.js"></script>
+<!--App assets-->
 <script type="text/javascript" src="resources/js/app/model/user.js"></script>
+<script type="text/javascript" src="resources/js/app/collection/user.collection.js"></script>
+<script type="text/javascript" src="resources/js/app/view/user.view.js"></script>
+<script type="text/javascript" src="resources/js/app/view/users.view.js"></script>
+
+<!--App initializer-->
+<script type="text/javascript" src="resources/js/app/index.js"></script>
 
 
-<!--Template-->
+<!--Templates-->
 <script type="text/template" id="user-template">
-
     <td><%- login %></td>
     <td><%- firstName %></td>
     <td><%- lastName %></td>
@@ -69,11 +54,148 @@
     <td>
         <button type="button" class="btn-xs btn-success edit" value="<%- login %>">Edit</button>
         <button type="button" class="btn-xs btn-danger delete" value="<%- login %>">Delete</button>
-
     </td>
-
 </script>
 
+<script type="text/template" id="users-template">
+    <div class="row" id="start-view">
+        <div class="col-lg-8 col-lg-offset-2 text-left">
+            <div>
+                <a id="nav-create-new" href="/create">Add new</a>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="user-list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div hidden id="dialog-confirm" title="Delete user?">
+        <p><span class="ui-icon ui-icon-alert" style=" float:left; margin:12px 12px 20px 0;"></span>
+            The user will be permanently deleted and cannot be recovered.
+            Are you sure?</p>
+    </div>
+</script>
+
+<div type="text/template" id="user-create-template" hidden>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-left">
+
+            <form id="newUser" class="form-horizontal" action="#" method="post" role="form">
+
+                <h3 class="col-sm-offset-4">Add user</h3></br>
+
+                <div id="login-fg" class="form-group">
+                    <label class="control-label col-sm-3" for="login">Login:</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="login" name="login" placeholder="Login..."
+                               class="form-control"
+                               value="">
+                    </div>
+                </div>
+
+                <!--<div class="form-group ">-->
+                <div id="password-fg" class="form-group">
+                    <label class="control-label col-sm-3" for="password">Password:</label>
+                    <div class="col-sm-4">
+                        <input id="password" name="password" placeholder="Enter password"
+                               class="form-control" value="" type="password">
+                    </div>
+                </div>
+                <div id="passConfirm-fg" class="form-group">
+                    <label class="control-label col-sm-3 " for="passConfirm">Password
+                        again:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="passConfirm" name="passConfirm"
+                               placeholder="Enter password" value="" type="password">
+                        <span id="passConfirmError" ></span>
+                    </div>
+
+                </div>
+                <!--</div>-->
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-3" for="email">Email:</label>
+                    <div class="col-sm-4">
+                        <input id="email" name="email" placeholder="E-mail..." class="form-control"
+                               value="" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-3" for="firstName">First
+                        name:</label>
+                    <div class="col-sm-4">
+                        <input id="firstName" name="firstName" placeholder="Name..."
+                               class="form-control" value="" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-3" for="lastName">Last name:</label>
+                    <div class="col-sm-4">
+                        <input id="lastName" name="lastName" placeholder="Surname..."
+                               class="form-control" value="" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-3" for="birthday">Birthday:</label>
+                    <div class="col-sm-4">
+                        <input id="birthday" name="birthday" class="form-control" value=""
+                               type="date">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="role">Role:</label>
+                    <div class="col-sm-4">
+                        <select id="role" name="role" class="list-group-item">
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-sm-offset-4">
+                        <button id="btn-save" type="submit" class="btn btn-default">Ok</button>
+                        <button type="reset" class="btn btn-default">Rest</button>
+                        <a id="btn-cancel" href="/" class="btn btn-default" role="button">Cancel</a>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--<script type="application/javascript">-->
+        <!--function checkPasswordMatch() {-->
+            <!--var password = $("#password").val();-->
+            <!--var confirmPassword = $("#passConfirm").val();-->
+
+            <!--if (password != confirmPassword) {-->
+                <!--console.log('try check');-->
+                <!--$('#passConfirmError').html("Passwords do not match!").addClass("control-label");-->
+            <!--} else {-->
+                <!--console.log('valid');-->
+                <!--$("#passConfirmError").html("");-->
+            <!--}-->
+        <!--}-->
+
+        <!--$("#passConfirm").keyup(checkPasswordMatch);-->
+    <!--</script>-->
+</div>
 
 </body>
 </html>

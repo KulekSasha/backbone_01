@@ -2,115 +2,85 @@ var userApp = userApp || {};
 
 $(function () {
 
-
-    userApp.UserCollection = Backbone.Collection.extend({
-        model: userApp.UserModel,
-
-        url: "http://localhost:8080/lab-22-backbone/api/rest/users",
-
-    });
-
-    userApp.userList = new userApp.UserCollection();
-
-    userApp.UserView = Backbone.View.extend({
-        tagName: 'tr',
-        template: _.template($('#user-template').html()),
-        render: function () {
-            var user = this.model.toJSON();
-            user.birthday = new Date().getFullYear() - new Date(user.birthday).getFullYear();
-            this.$el.html(this.template(user));
-            return this;
-        },
-
-    });
-
-    userApp.UserEditView = Backbone.View.extend({
-
-        // things.find(function(model) { return model.get('name') === 'Lee'; });
-
-        tagName: 'tr',
-        template: _.template($('#user-template').html()),
-        render: function () {
-            var user = this.model.toJSON();
-            user.birthday = new Date().getFullYear() - new Date(user.birthday).getFullYear();
-            this.$el.html(this.template(user));
-            return this;
-        },
-
-    });
-
-    userApp.AppView = Backbone.View.extend({
-        el: $("#app-block"),
-
-        initialize: function () {
-            userApp.userList.on('add', this.addOne, this);
-            userApp.userList.on('reset', this.addAll, this);
-            userApp.userList.fetch();
-        },
-
-        addAll: function () {
-            this.$('#user-list').html(''); // clean the list
-            userApp.userList.each(this.addOne, this);
-        },
-
-        addOne: function (user) {
-            var view = new userApp.UserView({model: user});
-            $('#user-list').append(view.render().el);
-        },
-
-        events: {
-            'click .edit': 'editUser',
-            'click .delete': 'deleteUser',
-            'click #create-new': 'createUser',
-        },
-
-        editUser: function (e) {
-            var val = $(e.currentTarget).val();
-            alert(val);
-        },
-
-        deleteUser: function (e) {
-            alert(e.target.value);
-        },
-        
-        createUser: function () {
-            alert("create in appView");
-            userApp.router.navigate("create", true)
-        }
-
-    });
-
     userApp.Router = Backbone.Router.extend({
+        initialize: function (opts) {
+            this.users = opts.users;
+        },
         routes: {
-            "": "start",
-            "!/edit/:login": "edit",
+            "": "list",
+            "edit/:login": "edit",
             "create": "create",
         },
-
-        start: function () {
-            // alert("start in router");
-
+        list: function () {
+            console.log("list fn in router");
+            userApp.usersView = new userApp.UsersView;
+            userApp.usersView.render();
         },
-
         edit: function () {
-            alert("edit");
+            console.log("edit fn in router");
         },
-
         create: function () {
-            alert("create in router");
-            userApp.appView.initialize();
+            console.log("create fn in router");
+            userApp.userCreateView = new userApp.UserCreateView;
+            userApp.userCreateView.render();
+        },
+    });
+
+
+    userApp.UserCreateView = Backbone.View.extend({
+        el: $("#app-block"),
+        template: _.template($('#user-create-template').html()),
+
+        initialize: function () {
+            console.log("initialize in UserCreateView");
+            // userApp.userList.on('add', this.addOne, this); // is needed?
+            // userApp.userList.on('reset', this.addAll, this); // is needed?
         },
 
+        render: function () {
+            this.$el.empty().html(this.template());
+        },
+        destroy: function () {
+            console.log("destroy UserCreateView");
+            this.undelegateEvents();
+            this.unbind();
+            this.$el.empty();
+        },
+
+        // event handlers
+        events: {
+            "click #btn-cancel": "cancel",
+            "submit form": "saveNewUser",
+        },
+        cancel: function (evt) {
+            console.log("cancel in UserCreateView: " + evt.target.getAttribute("href"));
+            this.destroy();
+            evt.preventDefault();
+            userApp.router.navigate(evt.target.getAttribute("href"), {trigger: true});
+        },
+        saveNewUser: function (evt) {
+            console.log("saveNewUser in UserCreateView: " + evt.currentTarget);
+            evt.preventDefault();
+            var formData = Backbone.Syphon.serialize(evt.currentTarget);
+            console.log(formData);
+            var u = new userApp.UserModel();
+
+
+        },
     });
 
 
     //--------------
     // Initializers
     //--------------
-    userApp.router = new userApp.Router();
-    Backbone.history.start();
+    userApp.userList = new userApp.UserCollection();
 
-    userApp.appView = new userApp.AppView;
+    userApp.userList.fetch().then(function () {
+        userApp.router = new userApp.Router({
+            users: userApp.userList
+        });
+        // Backbone.history.start({pushState: true});
+        Backbone.history.start();
+    });
 
-})
-;
+});

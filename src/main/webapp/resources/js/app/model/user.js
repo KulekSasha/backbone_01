@@ -14,6 +14,9 @@ userApp.UserModel = Backbone.Model.extend({
             "id": "",
             "name": ""
         }
-    }
+    },
+
+    idAttribute: "login",
+
 });
 
