@@ -1,13 +1,18 @@
 package com.nix.config;
 
+import com.nix.dao.RoleDao;
 import com.nix.dao.UserDao;
+import com.nix.dao.hiber.HRoleDao;
 import com.nix.dao.hiber.HUserDao;
+import com.nix.service.RoleService;
 import com.nix.service.UserService;
+import com.nix.service.impl.RoleServiceImpl;
 import com.nix.service.impl.UserServiceImpl;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -25,6 +30,9 @@ import java.util.Properties;
 @Configuration
 @PropertySource(value = {"classpath:app-test.properties"})
 @EnableTransactionManagement
+@ComponentScan(basePackages = {
+        "com.nix.api.rest",
+})
 public class UserResourceTestConfig {
 
     @Autowired
@@ -33,6 +41,11 @@ public class UserResourceTestConfig {
     @Bean
     public UserDao userDao() {
         return new HUserDao(sessionFactory());
+    }
+
+    @Bean
+    public RoleDao roleDao() {
+        return new HRoleDao(sessionFactory());
     }
 
     @Bean
@@ -84,6 +97,12 @@ public class UserResourceTestConfig {
     @Bean
     public UserService userService() {
         UserService service = new UserServiceImpl(userDao());
+        return service;
+    }
+
+    @Bean
+    public RoleService roleService() {
+        RoleService service = new RoleServiceImpl(roleDao());
         return service;
     }
 

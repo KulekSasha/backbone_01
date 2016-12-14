@@ -3,8 +3,6 @@ package com.nix.api.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.nix.config.JerseyAppConfig;
-import com.nix.model.Role;
-import com.nix.model.User;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
@@ -18,8 +16,6 @@ import org.springframework.web.context.ContextLoaderListener;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -64,9 +60,9 @@ public class UserResourceTest extends JerseyTest {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
 
-        List<User> list = jsonMapper.readValue(output.readEntity(String.class),
+        List<UserModelForTest> list = jsonMapper.readValue(output.readEntity(String.class),
                 TypeFactory.defaultInstance().constructCollectionType(List.class,
-                        User.class));
+                        UserModelForTest.class));
 
         assertEquals("should return status 200", Response.Status.OK.getStatusCode(),
                 output.getStatus());
@@ -79,7 +75,8 @@ public class UserResourceTest extends JerseyTest {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
 
-        User user = jsonMapper.readValue(output.readEntity(String.class), User.class);
+        UserModelForTest user = jsonMapper.readValue(output.readEntity(String.class),
+                UserModelForTest.class);
 
         assertEquals("should return status 200", Response.Status.OK.getStatusCode(),
                 output.getStatus());
@@ -98,31 +95,29 @@ public class UserResourceTest extends JerseyTest {
 
     @Test(timeout = 15000L)
     public void createUser() throws Exception {
-        User newUser = new User(0, "testUser_6", "password",
-                "testUser_6@gmail.com", "firstNameTest", "lastNameTest",
-                new GregorianCalendar(1986, Calendar.JANUARY, 1).getTime(),
-                new Role(1L, "Admin"));
-
         int expectedNewId = 6;
+
+        UserModelForTest userFromClient = new UserModelForTest(0, "testUser_6", "password",
+                "testUser_6@gmail.com", "firstNameTest", "lastNameTest", "1986-01-01", "Admin");
 
         Response output = target("users")
                 .request(MediaType.APPLICATION_JSON_TYPE)
-                .post(Entity.entity(newUser, MediaType.APPLICATION_JSON_TYPE));
+                .post(Entity.entity(userFromClient, MediaType.APPLICATION_JSON_TYPE));
 
         assertEquals("should return status 201", Response.Status.CREATED.getStatusCode(),
                 output.getStatus());
 
-        newUser.setId(expectedNewId);
-        User createdUser = jsonMapper.readValue(output.readEntity(String.class), User.class);
-        assertEquals(newUser, createdUser);
+        userFromClient.setId(expectedNewId);
+        UserModelForTest createdUser = jsonMapper.readValue(output.readEntity(String.class),
+                UserModelForTest.class);
+        assertEquals(userFromClient, createdUser);
+
     }
 
     @Test(timeout = 15000L)
     public void createUserWrongParam() throws Exception {
-        User newUser = new User(0, "testUser_1", "p",
-                "t", "f", "l",
-                new GregorianCalendar(2050, Calendar.JANUARY, 1).getTime(),
-                new Role(1L, "Admin"));
+        UserModelForTest newUser = new UserModelForTest(0, "testUser_1", "p",
+                "t", "f", "l", "2050-01-01", "Admin");
 
         int expectedFieldsWithError = 6;
 
@@ -153,7 +148,7 @@ public class UserResourceTest extends JerseyTest {
 
     @Test(timeout = 15000L)
     public void updateUser() throws Exception {
-        User updateUser = getExistedUser();
+        UserModelForTest updateUser = getExistedUser();
         updateUser.setFirstName("OlegUp");
         updateUser.setLastName("GazmanovUp");
 
@@ -164,16 +159,15 @@ public class UserResourceTest extends JerseyTest {
         assertEquals("should return status 200", Response.Status.OK.getStatusCode(),
                 output.getStatus());
 
-        User updatedUser = jsonMapper.readValue(output.readEntity(String.class), User.class);
+        UserModelForTest updatedUser = jsonMapper.readValue(output.readEntity(String.class),
+                UserModelForTest.class);
         assertEquals(updateUser, updatedUser);
     }
 
     @Test(timeout = 15000L)
     public void updateNonexistentUser() throws Exception {
-        User updateUser = new User(100, "testUser_100", "testUser_5",
-                "testUser_5@gmail.com", "OlegUp", "GazmanovUp",
-                new GregorianCalendar(1980, Calendar.MAY, 5).getTime(),
-                new Role(1L, "Admin"));
+        UserModelForTest updateUser = new UserModelForTest(100, "testUser_100", "testUser_5",
+                "testUser_5@gmail.com", "OlegUp", "GazmanovUp", "1980-05-05", "Admin");
 
         Response output = target("users/testUser_100")
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -185,9 +179,9 @@ public class UserResourceTest extends JerseyTest {
 
     @Test(timeout = 15000L)
     public void updateUserInvalidNameBirthday() throws Exception {
-        User updateUser = getExistedUser();
+        UserModelForTest updateUser = getExistedUser();
         updateUser.setFirstName("O");
-        updateUser.setBirthday(new GregorianCalendar(2050, Calendar.MAY, 5).getTime());
+        updateUser.setBirthday("2050-05-05");
 
         int expectedFieldsWithError = 2;
 
@@ -214,7 +208,7 @@ public class UserResourceTest extends JerseyTest {
 
     @Test(timeout = 15000L)
     public void updateUserChangeLogin() throws Exception {
-        User updateUser = getExistedUser();
+        UserModelForTest updateUser = getExistedUser();
         updateUser.setLogin("LoginUpdate");
 
         int expectedFieldsWithError = 1;
@@ -245,10 +239,10 @@ public class UserResourceTest extends JerseyTest {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .buildGet();
 
-        List<User> listBefore = jsonMapper.readValue(
+        List<UserModelForTest> listBefore = jsonMapper.readValue(
                 invocationAllUser.invoke().readEntity(String.class),
                 TypeFactory.defaultInstance().constructCollectionType(List.class,
-                        User.class));
+                        UserModelForTest.class));
 
         Response output = target("users/testUser_5")
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -257,10 +251,10 @@ public class UserResourceTest extends JerseyTest {
         assertEquals("should return status 200", Response.Status.OK.getStatusCode(),
                 output.getStatus());
 
-        List<User> listAfter = jsonMapper.readValue(
+        List<UserModelForTest> listAfter = jsonMapper.readValue(
                 invocationAllUser.invoke().readEntity(String.class),
                 TypeFactory.defaultInstance().constructCollectionType(List.class,
-                        User.class));
+                        UserModelForTest.class));
 
         assertEquals("list after should be less on one",
                 listBefore.size(), listAfter.size() + 1);
@@ -276,10 +270,132 @@ public class UserResourceTest extends JerseyTest {
                 output.getStatus());
     }
 
-    private User getExistedUser() {
-        return new User(1L, "testUser_1", "testUser_1",
+    private UserModelForTest getExistedUser() {
+        return new UserModelForTest(1L, "testUser_1", "testUser_1",
                 "testUser_1@gmail.com", "Ivan", "Ivanov",
-                new GregorianCalendar(1986, Calendar.JANUARY, 1).getTime(),
-                new Role(1L, "Admin"));
+                "1986-01-01", "Admin");
+    }
+
+    private static class UserModelForTest {
+        private long id;
+        private String login;
+        private String password;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private String birthday;
+        private String role;
+
+        public UserModelForTest() {
+        }
+
+        public UserModelForTest(long id, String login, String password, String email,
+                                String firstName, String lastName,
+                                String birthday, String role) {
+            this.id = id;
+            this.login = login;
+            this.password = password;
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.birthday = birthday;
+            this.role = role;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getLogin() {
+            return login;
+        }
+
+        public void setLogin(String login) {
+            this.login = login;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(String birthday) {
+            this.birthday = birthday;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            UserModelForTest that = (UserModelForTest) o;
+
+            if (login != null ? !login.equals(that.login) : that.login != null) return false;
+            if (password != null ? !password.equals(that.password) : that.password != null)
+                return false;
+            if (email != null ? !email.equals(that.email) : that.email != null) return false;
+            if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
+                return false;
+            if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null)
+                return false;
+            if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null)
+                return false;
+            return role != null ? role.equals(that.role) : that.role == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = login != null ? login.hashCode() : 0;
+            result = 31 * result + (password != null ? password.hashCode() : 0);
+            result = 31 * result + (email != null ? email.hashCode() : 0);
+            result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+            result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+            result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+            result = 31 * result + (role != null ? role.hashCode() : 0);
+            return result;
+        }
     }
 }

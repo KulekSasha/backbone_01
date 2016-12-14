@@ -4,7 +4,6 @@ import com.nix.api.soap.xmladapter.DateAdapter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -37,18 +36,16 @@ public class User {
     private long id;
 
     @Column(name = "LOGIN", unique = true)
-    @NotEmpty
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{2,10}$", message = "{user.login.pattern}")
     @NaturalId
     private String login;
 
     @Column(name = "PASSWORD")
-    @NotEmpty(message = "notEmpty.password")
-    @Pattern(regexp = "^[a-zA-Z0-9_-]{5,15}$")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{5,15}$", message = "{user.password.pattern}")
     private String password;
 
     @Column(name = "EMAIL")
-    @NotEmpty
-    @Email(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @Email(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "{user.email.pattern}")
     private String email;
 
     @Column(name = "FIRST_NAME")
@@ -61,14 +58,14 @@ public class User {
 
     @Column(name = "BIRTHDAY")
     @Temporal(TemporalType.DATE)
-    @NotNull
-    @Past
+    @Past(message = "{user.birthday.past}")
+    @NotNull(message = "{user.birthday.past}")
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date birthday;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ROLE_ID")
-    @NotNull
+    @NotNull(message = "{user.role.not.found}")
     private Role role;
 
     public User() {

@@ -8,11 +8,8 @@ $(function () {
 
         initialize: function () {
             console.log("initialize in UsersView");
-            // userApp.userList.on('add', this.addOne, this);
-            // userApp.userList.on('reset', this.addAll, this);
             this.render();
         },
-
         render: function () {
             this.$el.empty().html(this.template());
             this.addAll();
@@ -39,11 +36,14 @@ $(function () {
             'click #nav-create-new': 'createUser',
         },
         editUser: function (evt) {
-            var val = $(evt.currentTarget).val();
-            console.log(val);
+            console.log("edit in UsersView invoked, login: " + evt.target.getAttribute("value"));
+            this.destroy();
+            evt.preventDefault();
+            let login = evt.target.getAttribute("value");
+            userApp.router.navigate('edit/' + login, {trigger: true});
         },
         deleteUser: function (evt) {
-            console.log("event-handler deleteUser invoked");
+            console.log("deleteUser in UsersView invoked");
             var login = evt.target.value;
             var userToDelete = userApp.userList.findWhere({login: login});
 
@@ -56,6 +56,8 @@ $(function () {
                     "Delete": function () {
                         if (userToDelete) {
                             userToDelete.destroy({
+                                url: "http://localhost:8080/lab-22-backbone/api/rest/users/" +
+                                userToDelete.get('login'),
                                 wait: true,
                                 dataType: "text",
                                 success: function (model) {
@@ -72,8 +74,7 @@ $(function () {
             });
         },
         createUser: function (evt) {
-            console.log("create in appView: " + evt.target.getAttribute("href"));
-            console.log("prevent def");
+            console.log("createUser in UsersView invoked: " + evt.target.getAttribute("href"));
             this.destroy();
             evt.preventDefault();
             userApp.router.navigate(evt.target.getAttribute("href"), {trigger: true});

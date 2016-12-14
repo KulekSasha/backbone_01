@@ -1,59 +1,68 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="own" uri="com.nix.tag" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Users</title>
-
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="resources/css/jquery-ui.min.css" rel="stylesheet">
-    <link href="resources/css/jquery-ui.structure.min.css" rel="stylesheet">
-
+    <c:set var="url">${pageContext.request.contextPath}</c:set>
+    <title>Admin</title>
+    <link href="${url}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${url}/resources/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="${url}/resources/css/jquery-ui.structure.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container-fluid">
     <div class="row">
-        </br>
         <div class="col-lg-4 col-lg-offset-6 text-right">
-            Admin ... (<a href="/logout">logout</a>)
+            <h5><p>Admin ${sessionScope.loginUser.firstName}
+                (<a href="${url}/logout">logout</a>)</p></h5>
         </div>
     </div>
+
     <div id="app-block">
 
     </div>
 </div>
 
 
-<!-- jQuery  & Bootstrap-->
-<script src="resources/js/jquery-3.1.1.js"></script>
-<script src="resources/js/bootstrap.min.js"></script>
-<script src="resources/js/jquery-ui.min.js"></script>
+<%--jQuery  & Bootstrap--%>
+<script src="${url}/resources/js/jquery-3.1.1.js"></script>
+<script src="${url}/resources/js/bootstrap.min.js"></script>
+<script src="${url}/resources/js/jquery-ui.min.js"></script>
 
-<!--App Libs-->
-<script src="resources/js/app/lib/underscore.js"></script>
-<script src="resources/js/app/lib/backbone.js"></script>
-<script src="resources/js/app/lib/backbone.syphon.js"></script>
+<%--App Libs--%>
+<script src="${url}/resources/js/app/lib/underscore.js"></script>
+<script src="${url}/resources/js/app/lib/backbone.js"></script>
+<script src="${url}/resources/js/app/lib/backbone.syphon.js"></script>
 
-<!--App assets-->
-<script src="resources/js/app/model/user.js"></script>
-<script src="resources/js/app/collection/user.collection.js"></script>
-<script src="resources/js/app/view/user.view.js"></script>
-<script src="resources/js/app/view/users.view.js"></script>
-<script src="resources/js/app/view/user.create.view.js"></script>
+<%--App assets--%>
+<script src="${url}/resources/js/app/model/user.js"></script>
+<script src="${url}/resources/js/app/collection/user.collection.js"></script>
+<script src="${url}/resources/js/app/view/user.view.js"></script>
+<script src="${url}/resources/js/app/view/users.view.js"></script>
 
-<!--App initializer-->
-<script type="text/javascript" src="resources/js/app/index.js"></script>
+<%--App initializer--%>
+<script type="text/javascript" src="${url}/resources/js/app/index.js"></script>
 
-<!--Templates-->
+
+<%--Templates--%>
 <script type="text/template" id="user-template">
-    <td><%- login %></td>
-    <td><%- firstName %></td>
-    <td><%- lastName %></td>
-    <td><%- birthday %></td>
-    <td><%- role %></td>
+    <td><\%- login %></td>
+    <td><\%- firstName %></td>
+    <td><\%- lastName %></td>
+    <td><\%- birthday %></td>
+    <td><\%- role %></td>
     <td>
-        <button type="button" class="btn-xs btn-success edit" value="<%- login %>">Edit</button>
-        <button type="button" class="btn-xs btn-danger delete" value="<%- login %>">Delete</button>
+        <button type="button" class="btn-xs btn-success edit" value="<\%- login %>">Edit</button>
+        <button type="button" class="btn-xs btn-danger delete" value="<\%- login %>">Delete</button>
     </td>
 </script>
 

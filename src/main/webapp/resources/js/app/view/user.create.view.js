@@ -1,49 +1,19 @@
 var userApp = userApp || {};
 
 $(function () {
-
-    userApp.Router = Backbone.Router.extend({
-        initialize: function (opts) {
-            this.users = opts.users;
-        },
-        routes: {
-            "": "list",
-            "edit/:login": "edit",
-            "create": "create",
-        },
-        list: function () {
-            console.log("list fn in router");
-            userApp.usersView = new userApp.UsersView;
-        },
-        edit: function (login) {
-            console.log("edit fn in router, login:" + login);
-            userApp.userEditView = new userApp.UserEditView({login: login});
-        },
-        create: function () {
-            console.log("create fn in router");
-            userApp.userCreateView = new userApp.UserCreateView();
-        },
-    });
-
-
-    userApp.UserEditView = Backbone.View.extend({
+    userApp.UserCreateView = Backbone.View.extend({
         el: $("#app-block"),
         template: _.template($('#user-create-template').html()),
 
-        initialize: function (opt) {
+        initialize: function () {
             console.log("initialize in UserCreateView");
-            this.render(opt);
+            this.render();
         },
-        render: function (opt) {
+        render: function () {
             this.$el.empty().html(this.template());
-            $('h3').empty().text('Edit user: ' + opt.login);
-            let edtUser = userApp.userList.findWhere({login: opt.login})
-            _.each(edtUser.attributes, (val, key) => $("#" + key).val(val));
-            $("#login").attr({disabled: true});
-            $("#passConfirm").val(edtUser.get("password"));
         },
         destroy: function () {
-            console.log("destroy UserEditView");
+            console.log("destroy UserCreateView");
             this.undelegateEvents();
             this.unbind();
             this.$el.empty();
@@ -55,7 +25,7 @@ $(function () {
             "submit form": "saveNewUser",
         },
         cancel: function (evt) {
-            console.log("cancel in UserEditView: " + evt.target.getAttribute("href"));
+            console.log("cancel in UserCreateView: " + evt.target.getAttribute("href"));
             this.destroy();
             evt.preventDefault();
             userApp.router.navigate(evt.target.getAttribute("href"), {trigger: true});
@@ -104,24 +74,4 @@ $(function () {
             });
         }
     });
-
-    userApp.Initializer = function () {
-        this.start = function () {
-            userApp.userList = new userApp.UserCollection();
-
-            userApp.userList.fetch().then(function () {
-                userApp.router = new userApp.Router({
-                    users: userApp.userList
-                });
-                // Backbone.history.start({pushState: true});
-                Backbone.history.start();
-            });
-        }
-    }
-
 });
-
-$(function () {
-    var app = new userApp.Initializer();
-    app.start();
-})

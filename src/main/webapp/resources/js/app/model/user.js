@@ -2,6 +2,8 @@ var userApp = userApp || {};
 
 userApp.UserModel = Backbone.Model.extend({
 
+    url: "http://localhost:8080/lab-22-backbone/api/rest/users/",
+
     defaults: {
         "id": "",
         "login": "",
@@ -10,10 +12,7 @@ userApp.UserModel = Backbone.Model.extend({
         "firstName": "",
         "lastName": "",
         "birthday": "",
-        "role": {
-            "id": "",
-            "name": ""
-        }
+        "role": "",
     },
 
     idAttribute: "login",
