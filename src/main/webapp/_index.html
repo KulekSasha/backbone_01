@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Users</title>
 
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/css/jquery-ui.min.css" rel="stylesheet">
-    <link href="/resources/css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="resources/css/jquery-ui.structure.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -39,10 +39,13 @@
 <script src="resources/js/app/collection/user.collection.js"></script>
 <script src="resources/js/app/view/user.view.js"></script>
 <script src="resources/js/app/view/users.view.js"></script>
+<script src="resources/js/app/view/user.abstract.create.edit.view.js"></script>
+<script src="resources/js/app/view/user.create.view.js"></script>
+<script src="resources/js/app/view/user.edit.view.js"></script>
+<script src="resources/js/app/router/router.js"></script>
 
 <!--App initializer-->
 <script type="text/javascript" src="resources/js/app/index.js"></script>
-
 
 <!--Templates-->
 <script type="text/template" id="user-template">
@@ -87,7 +90,7 @@
     </div>
 </script>
 
-<div type="text/template" id="user-create-template" hidden>
+<div type="text/template" id="user-create-edit-template" hidden>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-left">
 
@@ -186,8 +189,8 @@
 
     <script type="application/javascript">
         function checkPasswordMatch() {
-            var password = $("#password").val();
-            var confirmPassword = $("#passConfirm").val();
+            let password = $("#password").val();
+            let confirmPassword = $("#passConfirm").val();
 
             if (password != confirmPassword) {
                 console.log('try check');

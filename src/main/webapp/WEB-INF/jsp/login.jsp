@@ -8,7 +8,7 @@
 <head>
     <c:set var="url">${pageContext.request.contextPath}</c:set>
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
-    <spring:url value="/resources/js/jquery.js" var="jquery"/>
+    <spring:url value="/resources/js/jquery-3.1.1.js" var="jquery"/>
     <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapJs"/>
 
     <title>Login</title>
@@ -19,6 +19,7 @@
         body {
             padding-top: 70px;
         }
+
         .btn-space {
             margin-right: 10px;
         }
@@ -32,7 +33,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 text-left">
-            <form class="form-horizontal" action="${url}/login" method="post">
+            <form id="login-form" class="form-horizontal" action="${url}/login" method="post">
                 <div class="form-group">
                     <label for="login">Login:</label>
                     <input type="text" class="form-control" id="login" name="login"> <br>
@@ -65,6 +66,13 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="${bootstrapJs}"></script>
+
+<script>
+    $("#login-form").submit(function (event) {
+        localStorage.setItem("currentLogin", $('#login').val());
+        localStorage.setItem("currentPass", $('#pwd').val());
+    });
+</script>
 
 </body>
 </html>

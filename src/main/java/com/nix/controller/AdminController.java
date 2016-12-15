@@ -16,7 +16,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.DateFormat;
@@ -55,7 +57,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
     public ModelAndView admin(ModelAndView modelAndView, Principal principal,
-                              HttpServletRequest req) {
+                              HttpServletRequest req, HttpServletResponse resp) {
 
         User user = null;
         if (principal != null) {

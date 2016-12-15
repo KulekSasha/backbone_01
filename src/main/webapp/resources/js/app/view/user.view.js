@@ -14,7 +14,7 @@ $(function () {
         },
 
         render: function () {
-            var user = this.model.toJSON();
+            let user = this.model.toJSON();
             user.birthday = new Date().getFullYear() - new Date(user.birthday).getFullYear();
             this.$el.html(this.template(user));
             return this;

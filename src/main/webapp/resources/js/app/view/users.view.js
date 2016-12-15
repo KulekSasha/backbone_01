@@ -1,13 +1,11 @@
 var userApp = userApp || {};
 
 $(function () {
-    // render table with users
     userApp.UsersView = Backbone.View.extend({
         el: $("#app-block"),
         template: _.template($('#users-template').html()),
 
         initialize: function () {
-            console.log("initialize in UsersView");
             this.listenTo(userApp.userList, 'sync', this.render);
             this.render();
         },
@@ -16,7 +14,7 @@ $(function () {
             this.addAll();
         },
         addAll: function () {
-            this.$('#user-list').html(''); // clean the list
+            this.$('#user-list').html('');
             userApp.userList.each(this.addOne, this);
         },
         addOne: function (user) {
@@ -24,28 +22,25 @@ $(function () {
             $('#user-list').append(view.render().el);
         },
         destroy: function () {
-            console.log("destroy UsersView");
             this.$el.empty().off();
             this.stopListening();
         },
 
         // event handlers
         events: {
-            'click .edit': 'editUser', //not implemented yet
+            'click .edit': 'editUser',
             'click .delete': 'deleteUser',
             'click #nav-create-new': 'createUser',
         },
         editUser: function (evt) {
-            console.log("edit in UsersView invoked, login: " + evt.target.getAttribute("value"));
             this.destroy();
             evt.preventDefault();
             let login = evt.target.getAttribute("value");
-            userApp.router.navigate('edit/' + login, {trigger: true});
+            userApp.router.navigate('!/' + login, {trigger: true});
         },
         deleteUser: function (evt) {
-            console.log("deleteUser in UsersView invoked");
-            var login = evt.target.value;
-            var userToDelete = userApp.userList.findWhere({login: login});
+            let login = evt.target.value;
+            let userToDelete = userApp.userList.findWhere({login: login});
 
             $("#dialog-confirm").dialog({
                 resizable: false,
@@ -56,8 +51,7 @@ $(function () {
                     "Delete": function () {
                         if (userToDelete) {
                             userToDelete.destroy({
-                                url: "http://localhost:8080/lab-22-backbone/api/rest/users/" +
-                                userToDelete.get('login'),
+                                url: '/api/rest/users/' + userToDelete.get('login'),
                                 wait: true,
                                 dataType: "text",
                                 success: function (model) {
@@ -74,9 +68,9 @@ $(function () {
             });
         },
         createUser: function (evt) {
-            console.log("createUser in UsersView invoked: " + evt.target.getAttribute("href"));
             this.destroy();
             evt.preventDefault();
+            console.log('before route: ' + evt.target.getAttribute("href"));
             userApp.router.navigate(evt.target.getAttribute("href"), {trigger: true});
         },
     });

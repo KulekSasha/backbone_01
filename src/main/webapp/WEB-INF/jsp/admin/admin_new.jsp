@@ -42,18 +42,23 @@
 <script src="${url}/resources/js/app/lib/underscore.js"></script>
 <script src="${url}/resources/js/app/lib/backbone.js"></script>
 <script src="${url}/resources/js/app/lib/backbone.syphon.js"></script>
+<script src="${url}/resources/js/app/lib/backbone.basicauth.js"></script>
 
-<%--App assets--%>
+<!--App assets-->
 <script src="${url}/resources/js/app/model/user.js"></script>
 <script src="${url}/resources/js/app/collection/user.collection.js"></script>
 <script src="${url}/resources/js/app/view/user.view.js"></script>
 <script src="${url}/resources/js/app/view/users.view.js"></script>
+<script src="${url}/resources/js/app/view/user.abstract.create.edit.view.js"></script>
+<script src="${url}/resources/js/app/view/user.create.view.js"></script>
+<script src="${url}/resources/js/app/view/user.edit.view.js"></script>
+<script src="${url}/resources/js/app/router/router.js"></script>
 
-<%--App initializer--%>
+<!--App initializer-->
 <script type="text/javascript" src="${url}/resources/js/app/index.js"></script>
 
 
-<%--Templates--%>
+<!--Templates-->
 <script type="text/template" id="user-template">
     <td><\%- login %></td>
     <td><\%- firstName %></td>
@@ -70,7 +75,7 @@
     <div class="row" id="start-view">
         <div class="col-lg-8 col-lg-offset-2 text-left">
             <div>
-                <a id="nav-create-new" href="/create">Add new</a>
+                <a id="nav-create-new" href="create">Add new</a>
             </div>
             <table class="table table-bordered">
                 <thead>
@@ -96,7 +101,7 @@
     </div>
 </script>
 
-<div type="text/template" id="user-create-template" hidden>
+<div type="text/template" id="user-create-edit-template" hidden>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-left">
 
@@ -195,8 +200,8 @@
 
     <script type="application/javascript">
         function checkPasswordMatch() {
-            var password = $("#password").val();
-            var confirmPassword = $("#passConfirm").val();
+            let password = $("#password").val();
+            let confirmPassword = $("#passConfirm").val();
 
             if (password != confirmPassword) {
                 console.log('try check');

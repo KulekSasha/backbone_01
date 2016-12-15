@@ -40,12 +40,12 @@
     </div>
 </div>
 
-<!-- jQuery Version 1.11.1 -->
-<script src="${url}/resources/js/jquery.js"></script>
-<!-- jQuery UI -->
-<script src="${url}/resources/js/jquery-ui.min.js"></script>
+<!-- jQuery  -->
+<script src="${url}/resources/js/jquery-3.1.1.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="${url}/resources/js/bootstrap.min.js"></script>
+<!-- jQuery UI -->
+<script src="${url}/resources/js/jquery-ui.min.js"></script>
 
 
 <script>

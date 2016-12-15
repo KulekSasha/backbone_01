@@ -1,5 +1,17 @@
 var userApp = userApp || {};
 
+//setup basic authentication for rest services
+$.ajaxSetup({
+    username: localStorage.getItem('currentLogin'),
+    password: localStorage.getItem('currentPass')
+});
+
+//setup deployment context
+$.ajaxPrefilter(function (options) {
+    let deploymentContext = '/lab-22-backbone';
+    options.url = deploymentContext + options.url;
+});
+
 userApp.Initializer = function () {
     this.start = function () {
         userApp.userList = new userApp.UserCollection();
@@ -8,13 +20,12 @@ userApp.Initializer = function () {
             userApp.router = new userApp.Router({
                 users: userApp.userList
             });
-            // Backbone.history.start({pushState: true});
             Backbone.history.start();
         });
     }
-}
+};
 
 $(function () {
-    var app = new userApp.Initializer();
+    const app = new userApp.Initializer();
     app.start();
-})
+});
