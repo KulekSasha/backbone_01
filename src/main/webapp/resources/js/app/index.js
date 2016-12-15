@@ -16,7 +16,10 @@ userApp.Initializer = function () {
     this.start = function () {
         userApp.userList = new userApp.UserCollection();
 
-        userApp.userList.fetch().then(function () {
+        userApp.userList.fetch({
+            username: localStorage.getItem('currentLogin'),
+            password: localStorage.getItem('currentPass')
+        }).then(function () {
             userApp.router = new userApp.Router({
                 users: userApp.userList
             });

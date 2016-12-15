@@ -3,6 +3,7 @@ package com.nix.api.rest.provider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.nix.api.rest.deserializer.DateDeserializer;
 import com.nix.api.rest.deserializer.RoleDeserializer;
 import com.nix.api.rest.serializer.RoleSerializer;
 import com.nix.model.Role;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 @Provider
@@ -36,6 +38,7 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
         SimpleModule module = new SimpleModule();
         module.addSerializer(Role.class, roleSerializer);
         module.addDeserializer(Role.class, roleDeserializer);
+        module.addDeserializer(Date.class, new DateDeserializer());
         objectMapper.registerModule(module);
 
         return objectMapper;

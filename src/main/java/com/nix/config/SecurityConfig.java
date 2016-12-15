@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    Environment env;
+    private Environment env;
 
     @Resource(name = "userDetailsService")
     public void setUserDetailsService(@Qualifier("userDetailsService") UserDetailsService userDetailsService) {

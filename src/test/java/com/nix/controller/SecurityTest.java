@@ -83,8 +83,8 @@ public class SecurityTest {
         mockMvc.perform(get("/admin/users").with(user("admin").password("adminPass").roles("ADMIN")))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("admin/admin"))
-                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin.jsp"));
+                .andExpect(view().name("admin/admin_new"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin_new.jsp"));
     }
 
     @Test(timeout = 2000L)

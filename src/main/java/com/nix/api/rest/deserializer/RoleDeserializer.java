@@ -1,7 +1,6 @@
 package com.nix.api.rest.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.nix.model.Role;
@@ -20,7 +19,7 @@ public class RoleDeserializer extends JsonDeserializer<Role> {
     private RoleService roleService;
 
     @Override
-    public Role deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Role deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         return roleService.findByName(p.getValueAsString("role"));
     }
 }
