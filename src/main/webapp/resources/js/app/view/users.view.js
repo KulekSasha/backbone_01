@@ -8,6 +8,7 @@ $(function () {
 
         initialize: function () {
             console.log("initialize in UsersView");
+            this.listenTo(userApp.userList, 'sync', this.render);
             this.render();
         },
         render: function () {
@@ -24,9 +25,8 @@ $(function () {
         },
         destroy: function () {
             console.log("destroy UsersView");
-            this.undelegateEvents();
-            this.unbind();
-            this.$el.empty();
+            this.$el.empty().off();
+            this.stopListening();
         },
 
         // event handlers
