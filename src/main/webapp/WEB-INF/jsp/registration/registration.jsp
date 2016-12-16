@@ -36,8 +36,8 @@
                        action="${url}/registration/new">
                 <spring:bind path="login">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label class="control-label col-lg-2" for="login">Login:</label>
-                        <div class="col-lg-4">
+                        <label class="control-label col-sm-3" for="login">Login:</label>
+                        <div class="col-sm-4">
                             <form:input path="login" class="form-control" placeholder="Login..."/>
                             <form:errors path="login" class="control-label"/>
                         </div>
@@ -48,17 +48,17 @@
                 <spring:bind path="password">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <div class="form-group ">
-                            <label class="control-label col-lg-2" for="password">Password:</label>
-                            <div class="col-lg-4">
+                            <label class="control-label col-sm-3" for="password">Password:</label>
+                            <div class="col-sm-4">
                                 <form:password path="password" class="form-control"
                                                showPassword="true"
                                                placeholder="Enter password" value="${pswd}"/>
                             </div>
                         </div>
                         <div class="form-group ">
-                            <label class="control-label col-lg-2 " for="passConfirm">Password
+                            <label class="control-label col-sm-3 " for="passConfirm">Password
                                 again:</label>
-                            <div class="col-lg-4">
+                            <div class="col-sm-4">
                                 <input type="password" class="form-control" id="passConfirm"
                                        name="passConfirm" placeholder="Enter password"
                                        value="${pswd}"/>
@@ -70,8 +70,8 @@
 
                 <spring:bind path="email">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label class="control-label col-lg-2" for="email">Email:</label>
-                        <div class="col-lg-4">
+                        <label class="control-label col-sm-3" for="email">Email:</label>
+                        <div class="col-sm-4">
                             <form:input path="email" class="form-control" placeholder="E-mail..."/>
                             <form:errors path="email" class="control-label"/>
                         </div>
@@ -80,9 +80,9 @@
 
                 <spring:bind path="firstName">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label class="control-label col-lg-2" for="firstName">First
+                        <label class="control-label col-sm-3" for="firstName">First
                             name:</label>
-                        <div class="col-lg-4">
+                        <div class="col-sm-4">
                             <form:input path="firstName" class="form-control" placeholder="Name..."/>
                             <form:errors path="firstName" class="control-label"/>
                         </div>
@@ -91,8 +91,8 @@
 
                 <spring:bind path="lastName">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label class="control-label col-lg-2" for="lastName">Last name:</label>
-                        <div class="col-lg-4">
+                        <label class="control-label col-sm-3" for="lastName">Last name:</label>
+                        <div class="col-sm-4">
                             <form:input path="lastName" class="form-control" placeholder="Surname..."/>
                             <form:errors path="lastName" class="control-label"/>
                         </div>
@@ -101,8 +101,8 @@
 
                 <spring:bind path="birthday">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label class="control-label col-lg-2" for="birthday">Birthday:</label>
-                        <div class="col-lg-4">
+                        <label class="control-label col-sm-3" for="birthday">Birthday:</label>
+                        <div class="col-sm-4">
                             <fmt:formatDate pattern="yyyy-MM-dd" value="${newUser.birthday}"
                                             var="dob"/>
                             <form:input path="birthday" class="form-control" value="${dob}"
@@ -113,8 +113,8 @@
                 </spring:bind>
 
                 <div class="form-group hidden">
-                    <label class="control-label col-lg-2" for="role">Role:</label>
-                    <div class="col-lg-4">
+                    <label class="control-label col-sm-3" for="role">Role:</label>
+                    <div class="col-sm-4">
                         <form:select path="role" class="list-group-item" id="role" name="role">
                             <form:option value="User"/>
                         </form:select>
