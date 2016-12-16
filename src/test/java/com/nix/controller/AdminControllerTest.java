@@ -67,7 +67,7 @@ public class AdminControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/admin_new"))
-                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin_new.jsp"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin.jsp"))
                 .andDo(result -> {
                     HttpSession session = result.getRequest().getSession();
                     User loginUser = (User) session.getAttribute("loginUser");

@@ -84,7 +84,7 @@ public class SecurityTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/admin_new"))
-                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin_new.jsp"));
+                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/admin.jsp"));
     }
 
     @Test(timeout = 2000L)

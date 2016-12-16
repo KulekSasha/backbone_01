@@ -35,10 +35,11 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
         objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Role.class, roleSerializer);
-        module.addDeserializer(Role.class, roleDeserializer);
-        module.addDeserializer(Date.class, new DateDeserializer());
+        SimpleModule module = new SimpleModule()
+                .addSerializer(Role.class, roleSerializer)
+                .addDeserializer(Role.class, roleDeserializer)
+                .addDeserializer(Date.class, new DateDeserializer());
+
         objectMapper.registerModule(module);
 
         return objectMapper;

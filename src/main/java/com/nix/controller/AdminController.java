@@ -39,7 +39,7 @@ public class AdminController {
 
         req.getSession().setAttribute("loginUser", user);
 
-        modelAndView.setViewName("admin/admin_new");
+        modelAndView.setViewName("admin/admin");
         return modelAndView;
     }
 }

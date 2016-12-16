@@ -13,7 +13,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @ComponentScan(basePackages = {
         "com.nix.service",
         "com.nix.dao",
-        "com.nix.tag",
         "com.nix.controller",
         "com.nix.api",
 })
